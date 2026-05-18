@@ -1,0 +1,1503 @@
+<!doctype html>
+
+<html lang="ko">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>English Vocabulary Learning</title>
+
+<script src="/_sdk/element_sdk.js"></script>
+
+<style>
+
+body {
+
+box-sizing: border-box;
+
+margin: 0;
+
+padding: 0;
+
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+background: linear-gradient(135deg, #e8f5e9 0%, #f3e5f5 100%);
+
+min-height: 100%;
+
+width: 100%;
+
+}
+
+
+
+.app-container {
+
+width: 100%;
+
+min-height: 100vh;
+
+padding: 40px 20px;
+
+display: flex;
+
+flex-direction: column;
+
+align-items: center;
+
+}
+
+
+
+h1 {
+
+color: #2c3e50;
+
+margin: 0 0 30px 0;
+
+font-size: 32px;
+
+font-weight: 300;
+
+text-align: center;
+
+}
+
+
+
+.tabs {
+
+display: flex;
+
+gap: 10px;
+
+margin-bottom: 40px;
+
+flex-wrap: wrap;
+
+justify-content: center;
+
+}
+
+
+
+.tab-button {
+
+padding: 12px 24px;
+
+border: none;
+
+background: #ffffff;
+
+color: #2c3e50;
+
+cursor: pointer;
+
+border-radius: 8px;
+
+font-size: 16px;
+
+transition: all 0.3s ease;
+
+box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+}
+
+
+
+.tab-button:hover {
+
+transform: translateY(-2px);
+
+box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+
+}
+
+
+
+.tab-button.active {
+
+background: #5e35b1;
+
+color: #ffffff;
+
+}
+
+
+
+.content-area {
+
+background: #ffffff;
+
+border-radius: 16px;
+
+padding: 60px 40px;
+
+box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+
+max-width: 600px;
+
+width: 100%;
+
+min-height: 400px;
+
+display: flex;
+
+flex-direction: column;
+
+align-items: center;
+
+justify-content: center;
+
+}
+
+
+
+.word-display {
+
+font-size: 48px;
+
+color: #2c3e50;
+
+margin-bottom: 30px;
+
+text-align: center;
+
+font-weight: 300;
+
+}
+
+
+
+.meaning-display {
+
+font-size: 32px;
+
+color: #7e57c2;
+
+margin-bottom: 40px;
+
+text-align: center;
+
+opacity: 0;
+
+transition: opacity 0.3s ease;
+
+}
+
+
+
+.meaning-display.visible {
+
+opacity: 1;
+
+}
+
+
+
+.button-group {
+
+display: flex;
+
+gap: 15px;
+
+flex-wrap: wrap;
+
+justify-content: center;
+
+}
+
+
+
+.control-button {
+
+padding: 12px 32px;
+
+border: none;
+
+background: #5e35b1;
+
+color: #ffffff;
+
+cursor: pointer;
+
+border-radius: 8px;
+
+font-size: 16px;
+
+transition: all 0.3s ease;
+
+box-shadow: 0 2px 8px rgba(94, 53, 177, 0.3);
+
+}
+
+
+
+.control-button:hover {
+
+background: #7e57c2;
+
+transform: translateY(-2px);
+
+box-shadow: 0 4px 12px rgba(94, 53, 177, 0.4);
+
+}
+
+
+
+.control-button:disabled {
+
+background: #bdbdbd;
+
+cursor: not-allowed;
+
+transform: none;
+
+box-shadow: none;
+
+}
+
+
+
+.progress {
+
+font-size: 18px;
+
+color: #757575;
+
+margin-bottom: 30px;
+
+font-weight: 300;
+
+}
+
+
+
+.dictation-input {
+
+width: 100%;
+
+max-width: 400px;
+
+padding: 16px;
+
+font-size: 24px;
+
+border: 2px solid #e0e0e0;
+
+border-radius: 8px;
+
+margin-bottom: 20px;
+
+text-align: center;
+
+color: #2c3e50;
+
+transition: border-color 0.3s ease;
+
+}
+
+
+
+.dictation-input:focus {
+
+outline: none;
+
+border-color: #5e35b1;
+
+}
+
+
+
+.result-item {
+
+display: flex;
+
+justify-content: space-between;
+
+align-items: center;
+
+padding: 15px;
+
+margin-bottom: 10px;
+
+border-radius: 8px;
+
+background: #f5f5f5;
+
+width: 100%;
+
+}
+
+
+
+.result-item.correct {
+
+background: #e8f5e9;
+
+}
+
+
+
+.result-item.incorrect {
+
+background: #ffebee;
+
+}
+
+
+
+.result-korean {
+
+font-size: 18px;
+
+color: #2c3e50;
+
+}
+
+
+
+.result-answer {
+
+display: flex;
+
+flex-direction: column;
+
+align-items: flex-end;
+
+gap: 5px;
+
+}
+
+
+
+.result-user {
+
+font-size: 18px;
+
+color: #e53935;
+
+}
+
+
+
+.result-correct {
+
+font-size: 18px;
+
+color: #43a047;
+
+}
+
+
+
+.score-display {
+
+font-size: 36px;
+
+color: #5e35b1;
+
+margin: 30px 0;
+
+font-weight: 300;
+
+}
+
+
+
+.results-container {
+
+width: 100%;
+
+max-width: 500px;
+
+}
+
+</style>
+
+<style>@view-transition { navigation: auto; }</style>
+
+<script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+
+<script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+<main>
+
+<div class="app-container">
+
+<h1 id="app-title">초등 5학년 영단어 학습</h1>
+
+<div class="tabs"><button class="tab-button active" data-tab="tab1" id="tab1-button">영어 한글</button> <button class="tab-button" data-tab="tab2" id="tab2-button">한글 영어</button> <button class="tab-button" data-tab="tab3" id="tab3-button">받아쓰기</button>
+
+</div>
+
+<div class="content-area">
+
+<div id="tab1-content">
+
+<div class="progress" id="progress1"></div>
+
+<div class="word-display" id="english-word"></div>
+
+<div class="meaning-display" id="korean-meaning"></div>
+
+<div class="button-group"><button class="control-button" id="show-meaning">뜻 보기</button> <button class="control-button" id="prev1">이전</button> <button class="control-button" id="next1">다음</button>
+
+</div>
+
+</div>
+
+<div id="tab2-content" style="display: none;">
+
+<div class="progress" id="progress2"></div>
+
+<div class="word-display" id="korean-word"></div>
+
+<div class="meaning-display" id="english-meaning"></div>
+
+<div class="button-group"><button class="control-button" id="show-english">영어 보기</button> <button class="control-button" id="prev2">이전</button> <button class="control-button" id="next2">다음</button>
+
+</div>
+
+</div>
+
+<div id="tab3-content" style="display: none;">
+
+<div id="dictation-quiz">
+
+<div class="progress" id="progress3"></div>
+
+<div class="word-display" id="dictation-korean"></div><label for="dictation-input" style="position: absolute; left: -10000px;">영어 단어 입력</label> <input type="text" class="dictation-input" id="dictation-input" placeholder="영어 단어를 입력하세요">
+
+<div class="button-group"><button class="control-button" id="submit-answer">제출</button>
+
+</div>
+
+</div>
+
+<div id="dictation-results" style="display: none;">
+
+<div class="score-display" id="final-score"></div>
+
+<div class="results-container" id="results-list"></div>
+
+<div class="button-group"><button class="control-button" id="retry-dictation">다시 시작</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</main>
+
+<script>
+
+const vocabulary = [
+
+{ english: "ahead", korean: "앞에 먼저 미리" },
+
+{ english: "afternoon", korean: "오후" },
+
+{ english: "airplane", korean: "비행기" },
+
+{ english: "and", korean: "그리고" },
+
+{ english: "animal", korean: "동물" },
+
+{ english: "art", korean: "예술" },
+
+{ english: "bath", korean: "욕조" },
+
+{ english: "bathroom", korean: "욕실" },
+
+{ english: "beach", korean: "바닷가" },
+
+{ english: "beef", korean: "소고기" },
+
+{ english: "bedroom", korean: "침실" },
+
+{ english: "board", korean: "판자 보드" },
+
+{ english: "borrow", korean: "빌리다" },
+
+{ english: "boots", korean: "장화" },
+
+{ english: "bring", korean: "가져오다" },
+
+{ english: "brush", korean: "붓" },
+
+{ english: "but", korean: "하지만" },
+
+{ english: "button", korean: "단추" },
+
+{ english: "buy", korean: "사다" },
+
+{ english: "children", korean: "어린이들" },
+
+{ english: "class", korean: "수업" },
+
+{ english: "classroom", korean: "교실" },
+
+{ english: "club", korean: "동아리" },
+
+{ english: "collect", korean: "모으다" },
+
+{ english: "comedian", korean: "코미디언" },
+
+{ english: "country", korean: "나라" },
+
+{ english: "cousin", korean: "사촌" },
+
+{ english: "cow", korean: "소" },
+
+{ english: "delicious", korean: "맛있는" },
+
+{ english: "designer", korean: "디자이너" },
+
+{ english: "director", korean: "감독" },
+
+{ english: "draw", korean: "그리다" },
+
+{ english: "dream", korean: "꿈" },
+
+{ english: "during", korean: "동안" },
+
+{ english: "engineer", korean: "기술자" },
+
+{ english: "evening", korean: "저녁" },
+
+{ english: "family", korean: "가족" },
+
+{ english: "favorite", korean: "가장 좋아하는" },
+
+{ english: "feed", korean: "먹이를 주다" },
+
+{ english: "food", korean: "음식" },
+
+{ english: "from", korean: "부터" },
+
+{ english: "fry", korean: "튀기다" },
+
+{ english: "funny", korean: "재미있는" },
+
+{ english: "glasses", korean: "안경" },
+
+{ english: "grow", korean: "자라다" },
+
+{ english: "heart", korean: "마음 심장" },
+
+{ english: "hero", korean: "영웅" },
+
+{ english: "honey", korean: "꿀" },
+
+{ english: "jeans", korean: "청바지" },
+
+{ english: "join", korean: "가입하다" },
+
+{ english: "just", korean: "단지" },
+
+{ english: "kite", korean: "연" },
+
+{ english: "kind", korean: "친절한" },
+
+{ english: "large", korean: "큰" },
+
+{ english: "learn", korean: "배우다" },
+
+{ english: "library", korean: "도서관" },
+
+{ english: "listen", korean: "듣다" },
+
+{ english: "living room", korean: "거실" },
+
+{ english: "locker", korean: "사물함" },
+
+{ english: "long", korean: "긴" },
+
+{ english: "mail", korean: "우편" },
+
+{ english: "math", korean: "수학" },
+
+{ english: "medium", korean: "중간의" },
+
+{ english: "morning", korean: "아침" },
+
+{ english: "movie", korean: "영화" },
+
+{ english: "museum", korean: "박물관" },
+
+{ english: "music", korean: "음악" },
+
+{ english: "next", korean: "다음" },
+
+{ english: "noodle", korean: "국수" },
+
+{ english: "office", korean: "사무실" },
+
+{ english: "old", korean: "나이 많은" },
+
+{ english: "only", korean: "단지 오직" },
+
+{ english: "order", korean: "주문하다" },
+
+{ english: "P.E.", korean: "체육" },
+
+{ english: "park", korean: "공원" },
+
+{ english: "pants", korean: "바지" },
+
+{ english: "people", korean: "사람들" },
+
+{ english: "phone", korean: "전화" },
+
+{ english: "picnic", korean: "소풍" },
+
+{ english: "pick", korean: "고르다" },
+
+{ english: "place", korean: "장소" },
+
+{ english: "practice", korean: "연습하다" },
+
+{ english: "ready", korean: "준비된" },
+
+{ english: "restroom", korean: "화장실" },
+
+{ english: "right", korean: "옳은 오른쪽" },
+
+{ english: "room", korean: "방" },
+
+{ english: "say", korean: "말하다" },
+
+{ english: "sea", korean: "바다" },
+
+{ english: "see", korean: "보다" },
+
+{ english: "send", korean: "보내다" },
+
+{ english: "shark", korean: "상어" },
+
+{ english: "shoe", korean: "신발" },
+
+{ english: "show", korean: "보여주다" },
+
+{ english: "sick", korean: "아픈" },
+
+{ english: "sink", korean: "싱크대" },
+
+{ english: "so", korean: "그래서" },
+
+{ english: "song", korean: "노래" },
+
+{ english: "space", korean: "공간" },
+
+{ english: "tour", korean: "여행" },
+
+{ english: "uncle", korean: "삼촌" }
+
+];
+
+const sortedVocabulary = [...vocabulary].sort((a, b) =>
+
+a.english.toLowerCase().localeCompare(b.english.toLowerCase())
+
+);
+
+let currentIndex1 = 0;
+
+let currentIndex2 = 0;
+
+let meaningVisible1 = false;
+
+let meaningVisible2 = false;
+
+
+
+let dictationWords = [];
+
+let currentDictationIndex = 0;
+
+let userAnswers = [];
+
+const defaultConfig = {
+
+app_title: "초등 5학년 영단어 학습",
+
+tab1_title: "영어 한글",
+
+tab2_title: "한글 영어",
+
+tab3_title: "받아쓰기",
+
+show_answer_button: "뜻 보기",
+
+next_button: "다음",
+
+previous_button: "이전",
+
+submit_button: "제출",
+
+retry_button: "다시 시작",
+
+background_color: "#e8f5e9",
+
+secondary_surface_color: "#ffffff",
+
+text_color: "#2c3e50",
+
+primary_action_color: "#5e35b1",
+
+secondary_action_color: "#7e57c2",
+
+font_family: "Segoe UI",
+
+font_size: 16
+
+};
+
+function updateTab1() {
+
+const word = sortedVocabulary[currentIndex1];
+
+const baseSize = (window.elementSdk && window.elementSdk.config && window.elementSdk.config.font_size) || defaultConfig.font_size;
+
+
+
+document.getElementById('progress1').textContent = ${currentIndex1 + 1} / ${sortedVocabulary.length};
+
+document.getElementById('english-word').textContent = word.english;
+
+document.getElementById('english-word').style.fontSize = ${baseSize * 3}px;
+
+document.getElementById('korean-meaning').textContent = word.korean;
+
+document.getElementById('korean-meaning').style.fontSize = ${baseSize * 2}px;
+
+document.getElementById('korean-meaning').classList.remove('visible');
+
+meaningVisible1 = false;
+
+}
+
+function updateTab2() {
+
+const word = sortedVocabulary[currentIndex2];
+
+const baseSize = (window.elementSdk && window.elementSdk.config && window.elementSdk.config.font_size) || defaultConfig.font_size;
+
+
+
+document.getElementById('progress2').textContent = ${currentIndex2 + 1} / ${sortedVocabulary.length};
+
+document.getElementById('korean-word').textContent = word.korean;
+
+document.getElementById('korean-word').style.fontSize = ${baseSize * 3}px;
+
+document.getElementById('english-meaning').textContent = word.english;
+
+document.getElementById('english-meaning').style.fontSize = ${baseSize * 2}px;
+
+document.getElementById('english-meaning').classList.remove('visible');
+
+meaningVisible2 = false;
+
+}
+
+function startDictation() {
+
+const shuffled = [...vocabulary].sort(() => Math.random() - 0.5);
+
+dictationWords = shuffled.slice(0, 8);
+
+currentDictationIndex = 0;
+
+userAnswers = [];
+
+
+
+document.getElementById('dictation-quiz').style.display = 'block';
+
+document.getElementById('dictation-results').style.display = 'none';
+
+updateDictationQuestion();
+
+}
+
+function updateDictationQuestion() {
+
+const baseSize = (window.elementSdk && window.elementSdk.config && window.elementSdk.config.font_size) || defaultConfig.font_size;
+
+
+
+document.getElementById('progress3').textContent = ${currentDictationIndex + 1} / ${dictationWords.length};
+
+document.getElementById('dictation-korean').textContent = dictationWords[currentDictationIndex].korean;
+
+document.getElementById('dictation-korean').style.fontSize = ${baseSize * 3}px;
+
+document.getElementById('dictation-input').value = '';
+
+document.getElementById('dictation-input').focus();
+
+}
+
+function submitAnswer() {
+
+const userAnswer = document.getElementById('dictation-input').value.trim().toLowerCase();
+
+const correctAnswer = dictationWords[currentDictationIndex].english.toLowerCase();
+
+
+
+userAnswers.push({
+
+korean: dictationWords[currentDictationIndex].korean,
+
+correct: dictationWords[currentDictationIndex].english,
+
+user: document.getElementById('dictation-input').value.trim(),
+
+isCorrect: userAnswer === correctAnswer
+
+});
+
+
+
+currentDictationIndex++;
+
+
+
+if (currentDictationIndex < dictationWords.length) {
+
+updateDictationQuestion();
+
+} else {
+
+showResults();
+
+}
+
+}
+
+function showResults() {
+
+document.getElementById('dictation-quiz').style.display = 'none';
+
+document.getElementById('dictation-results').style.display = 'block';
+
+
+
+const correctCount = userAnswers.filter(a => a.isCorrect).length;
+
+const score = Math.round((correctCount / userAnswers.length) * 100);
+
+const baseSize = (window.elementSdk && window.elementSdk.config && window.elementSdk.config.font_size) || defaultConfig.font_size;
+
+
+
+document.getElementById('final-score').textContent = 점수: ${score}점 (${correctCount}/${userAnswers.length});
+
+document.getElementById('final-score').style.fontSize = ${baseSize * 2.25}px;
+
+
+
+const resultsList = document.getElementById('results-list');
+
+resultsList.innerHTML = '';
+
+
+
+userAnswers.forEach(answer => {
+
+const resultItem = document.createElement('div');
+
+resultItem.className = result-item ${answer.isCorrect ? 'correct' : 'incorrect'};
+
+
+
+const korean = document.createElement('div');
+
+korean.className = 'result-korean';
+
+korean.textContent = answer.korean;
+
+korean.style.fontSize = ${baseSize * 1.125}px;
+
+
+
+const answerDiv = document.createElement('div');
+
+answerDiv.className = 'result-answer';
+
+
+
+if (!answer.isCorrect) {
+
+const userSpan = document.createElement('div');
+
+userSpan.className = 'result-user';
+
+userSpan.textContent = 내 답: ${answer.user};
+
+userSpan.style.fontSize = ${baseSize * 1.125}px;
+
+answerDiv.appendChild(userSpan);
+
+}
+
+
+
+const correctSpan = document.createElement('div');
+
+correctSpan.className = 'result-correct';
+
+correctSpan.textContent = answer.isCorrect ? ✓ ${answer.correct} : 정답: ${answer.correct};
+
+correctSpan.style.fontSize = ${baseSize * 1.125}px;
+
+answerDiv.appendChild(correctSpan);
+
+
+
+resultItem.appendChild(korean);
+
+resultItem.appendChild(answerDiv);
+
+resultsList.appendChild(resultItem);
+
+});
+
+}
+
+document.querySelectorAll('.tab-button').forEach(button => {
+
+button.addEventListener('click', () => {
+
+const tab = button.dataset.tab;
+
+const primaryColor = (window.elementSdk && window.elementSdk.config && window.elementSdk.config.primary_action_color) || defaultConfig.primary_action_color;
+
+const surfaceColor = (window.elementSdk && window.elementSdk.config && window.elementSdk.config.secondary_surface_color) || defaultConfig.secondary_surface_color;
+
+const textColor = (window.elementSdk && window.elementSdk.config && window.elementSdk.config.text_color) || defaultConfig.text_color;
+
+
+
+document.querySelectorAll('.tab-button').forEach(b => {
+
+b.classList.remove('active');
+
+b.style.backgroundColor = surfaceColor;
+
+b.style.color = textColor;
+
+});
+
+button.classList.add('active');
+
+button.style.backgroundColor = primaryColor;
+
+button.style.color = surfaceColor;
+
+
+
+document.getElementById('tab1-content').style.display = 'none';
+
+document.getElementById('tab2-content').style.display = 'none';
+
+document.getElementById('tab3-content').style.display = 'none';
+
+
+
+if (tab === 'tab1') {
+
+document.getElementById('tab1-content').style.display = 'block';
+
+updateTab1();
+
+} else if (tab === 'tab2') {
+
+document.getElementById('tab2-content').style.display = 'block';
+
+updateTab2();
+
+} else if (tab === 'tab3') {
+
+document.getElementById('tab3-content').style.display = 'block';
+
+startDictation();
+
+}
+
+});
+
+});
+
+document.getElementById('show-meaning').addEventListener('click', () => {
+
+document.getElementById('korean-meaning').classList.add('visible');
+
+meaningVisible1 = true;
+
+});
+
+document.getElementById('next1').addEventListener('click', () => {
+
+if (currentIndex1 < sortedVocabulary.length - 1) {
+
+currentIndex1++;
+
+updateTab1();
+
+}
+
+});
+
+document.getElementById('prev1').addEventListener('click', () => {
+
+if (currentIndex1 > 0) {
+
+currentIndex1--;
+
+updateTab1();
+
+}
+
+});
+
+document.getElementById('show-english').addEventListener('click', () => {
+
+document.getElementById('english-meaning').classList.add('visible');
+
+meaningVisible2 = true;
+
+});
+
+document.getElementById('next2').addEventListener('click', () => {
+
+if (currentIndex2 < sortedVocabulary.length - 1) {
+
+currentIndex2++;
+
+updateTab2();
+
+}
+
+});
+
+document.getElementById('prev2').addEventListener('click', () => {
+
+if (currentIndex2 > 0) {
+
+currentIndex2--;
+
+updateTab2();
+
+}
+
+});
+
+document.getElementById('submit-answer').addEventListener('click', submitAnswer);
+
+document.getElementById('dictation-input').addEventListener('keypress', (e) => {
+
+if (e.key === 'Enter') {
+
+submitAnswer();
+
+}
+
+});
+
+document.getElementById('retry-dictation').addEventListener('click', startDictation);
+
+document.addEventListener('keydown', (e) => {
+
+const activeTab = document.querySelector('.tab-button.active').dataset.tab;
+
+
+
+if (e.code === 'Space') {
+
+e.preventDefault();
+
+
+
+if (activeTab === 'tab1' && !meaningVisible1) {
+
+document.getElementById('korean-meaning').classList.add('visible');
+
+meaningVisible1 = true;
+
+} else if (activeTab === 'tab2' && !meaningVisible2) {
+
+document.getElementById('english-meaning').classList.add('visible');
+
+meaningVisible2 = true;
+
+}
+
+} else if (e.code === 'ArrowRight') {
+
+e.preventDefault();
+
+
+
+if (activeTab === 'tab1' && currentIndex1 < sortedVocabulary.length - 1) {
+
+currentIndex1++;
+
+updateTab1();
+
+} else if (activeTab === 'tab2' && currentIndex2 < sortedVocabulary.length - 1) {
+
+currentIndex2++;
+
+updateTab2();
+
+}
+
+} else if (e.code === 'ArrowLeft') {
+
+e.preventDefault();
+
+
+
+if (activeTab === 'tab1' && currentIndex1 > 0) {
+
+currentIndex1--;
+
+updateTab1();
+
+} else if (activeTab === 'tab2' && currentIndex2 > 0) {
+
+currentIndex2--;
+
+updateTab2();
+
+}
+
+}
+
+});
+
+async function onConfigChange(config) {
+
+const customFont = config.font_family || defaultConfig.font_family;
+
+const baseFontStack = 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif';
+
+const baseSize = config.font_size || defaultConfig.font_size;
+
+
+
+const backgroundColor = config.background_color || defaultConfig.background_color;
+
+const surfaceColor = config.secondary_surface_color || defaultConfig.secondary_surface_color;
+
+const textColor = config.text_color || defaultConfig.text_color;
+
+const primaryColor = config.primary_action_color || defaultConfig.primary_action_color;
+
+const secondaryColor = config.secondary_action_color || defaultConfig.secondary_action_color;
+
+
+
+document.body.style.fontFamily = ${customFont}, ${baseFontStack};
+
+document.body.style.background = linear-gradient(135deg, ${backgroundColor} 0%, ${surfaceColor} 100%);
+
+
+
+document.getElementById('app-title').textContent = config.app_title || defaultConfig.app_title;
+
+document.getElementById('app-title').style.fontSize = ${baseSize * 2}px;
+
+document.getElementById('app-title').style.color = textColor;
+
+
+
+document.getElementById('tab1-button').textContent = config.tab1_title || defaultConfig.tab1_title;
+
+document.getElementById('tab2-button').textContent = config.tab2_title || defaultConfig.tab2_title;
+
+document.getElementById('tab3-button').textContent = config.tab3_title || defaultConfig.tab3_title;
+
+
+
+document.querySelectorAll('.tab-button').forEach(btn => {
+
+btn.style.fontSize = ${baseSize}px;
+
+if (!btn.classList.contains('active')) {
+
+btn.style.backgroundColor = surfaceColor;
+
+btn.style.color = textColor;
+
+}
+
+});
+
+
+
+document.querySelector('.tab-button.active').style.backgroundColor = primaryColor;
+
+document.querySelector('.tab-button.active').style.color = surfaceColor;
+
+
+
+document.querySelector('.content-area').style.backgroundColor = surfaceColor;
+
+
+
+document.querySelectorAll('.word-display').forEach(el => {
+
+el.style.color = textColor;
+
+el.style.fontSize = ${baseSize * 3}px;
+
+});
+
+
+
+document.querySelectorAll('.meaning-display').forEach(el => {
+
+el.style.color = secondaryColor;
+
+el.style.fontSize = ${baseSize * 2}px;
+
+});
+
+
+
+document.querySelectorAll('.progress').forEach(el => {
+
+el.style.fontSize = ${baseSize * 1.125}px;
+
+});
+
+
+
+document.getElementById('show-meaning').textContent = config.show_answer_button || defaultConfig.show_answer_button;
+
+document.getElementById('show-english').textContent = config.show_answer_button || defaultConfig.show_answer_button;
+
+document.getElementById('submit-answer').textContent = config.submit_button || defaultConfig.submit_button;
+
+document.getElementById('retry-dictation').textContent = config.retry_button || defaultConfig.retry_button;
+
+
+
+document.querySelectorAll('#next1, #next2').forEach(btn => {
+
+btn.textContent = config.next_button || defaultConfig.next_button;
+
+});
+
+
+
+document.querySelectorAll('#prev1, #prev2').forEach(btn => {
+
+btn.textContent = config.previous_button || defaultConfig.previous_button;
+
+});
+
+
+
+document.querySelectorAll('.control-button').forEach(btn => {
+
+btn.style.fontSize = ${baseSize}px;
+
+btn.style.backgroundColor = primaryColor;
+
+btn.style.color = surfaceColor;
+
+});
+
+
+
+document.querySelector('.dictation-input').style.fontSize = ${baseSize * 1.5}px;
+
+document.querySelector('.dictation-input').style.color = textColor;
+
+document.querySelector('.dictation-input').style.borderColor = '#e0e0e0';
+
+
+
+document.getElementById('final-score').style.fontSize = ${baseSize * 2.25}px;
+
+document.getElementById('final-score').style.color = primaryColor;
+
+
+
+document.querySelectorAll('.result-korean, .result-user, .result-correct').forEach(el => {
+
+el.style.fontSize = ${baseSize * 1.125}px;
+
+el.style.color = textColor;
+
+});
+
+}
+
+if (window.elementSdk) {
+
+window.elementSdk.init({
+
+defaultConfig,
+
+onConfigChange,
+
+mapToCapabilities: (config) => ({
+
+recolorables: [
+
+{
+
+get: () => config.background_color || defaultConfig.background_color,
+
+set: (value) => {
+
+config.background_color = value;
+
+window.elementSdk.setConfig({ background_color: value });
+
+}
+
+},
+
+{
+
+get: () => config.secondary_surface_color || defaultConfig.secondary_surface_color,
+
+set: (value) => {
+
+config.secondary_surface_color = value;
+
+window.elementSdk.setConfig({ secondary_surface_color: value });
+
+}
+
+},
+
+{
+
+get: () => config.text_color || defaultConfig.text_color,
+
+set: (value) => {
+
+config.text_color = value;
+
+window.elementSdk.setConfig({ text_color: value });
+
+}
+
+},
+
+{
+
+get: () => config.primary_action_color || defaultConfig.primary_action_color,
+
+set: (value) => {
+
+config.primary_action_color = value;
+
+window.elementSdk.setConfig({ primary_action_color: value });
+
+}
+
+},
+
+{
+
+get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+
+set: (value) => {
+
+config.secondary_action_color = value;
+
+window.elementSdk.setConfig({ secondary_action_color: value });
+
+}
+
+}
+
+],
+
+borderables: [],
+
+fontEditable: {
+
+get: () => config.font_family || defaultConfig.font_family,
+
+set: (value) => {
+
+config.font_family = value;
+
+window.elementSdk.setConfig({ font_family: value });
+
+}
+
+},
+
+fontSizeable: {
+
+get: () => config.font_size || defaultConfig.font_size,
+
+set: (value) => {
+
+config.font_size = value;
+
+window.elementSdk.setConfig({ font_size: value });
+
+}
+
+}
+
+}),
+
+mapToEditPanelValues: (config) => new Map([
+
+["app_title", config.app_title || defaultConfig.app_title],
+
+["tab1_title", config.tab1_title || defaultConfig.tab1_title],
+
+["tab2_title", config.tab2_title || defaultConfig.tab2_title],
+
+["tab3_title", config.tab3_title || defaultConfig.tab3_title],
+
+["show_answer_button", config.show_answer_button || defaultConfig.show_answer_button],
+
+["next_button", config.next_button || defaultConfig.next_button],
+
+["previous_button", config.previous_button || defaultConfig.previous_button],
+
+["submit_button", config.submit_button || defaultConfig.submit_button],
+
+["retry_button", config.retry_button || defaultConfig.retry_button]
+
+])
+
+});
+
+}
+
+updateTab1();
+
+</script>
+
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9aa9d7a8c0868d31',t:'MTc2NTE3MTUyOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+
+</html>
